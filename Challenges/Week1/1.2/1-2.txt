@@ -4,27 +4,50 @@ Response time: 0, 200, 400
 Turnaround time: 200, 400, 600
 True for both SJF and FIFO
 
+
+
+
 2. Now do the same but with jobs of different lengths: 100, 200, and 300
 
 Reponse time: 0, 100, 300
 Turnaround time: 100, 300, 600
 True for both SJF and FIFO
 
+
+
+
 3. Now do the same, but also with the RR scheduler and a time-slice of 1
+
 Response time: 0, 1, 2
 Turnaround time: 298, 499, 600
 
+
+
+
 4. For what types of workloads does SJF deliver the same turnaround times as FIFO?
+
 When the processes arrive in order of runtime (as in the example order 100, 200, 300), SJF will deliver the same turnaround times as FIFO since they are queued in the same order. 
 This is also true if all processes have the same job length as well.
 
+
+
+
 5. For what types of workloads and quantum lengths does SJF deliver the same response times as RR?
+
 If all jobs are of equivalent runtime lengths and the quantum length is the same as the runtime length of one job, SJF and RR will work identically and will deliver the same response time.
 The two will also perform identically if the RR quantum length is equal to or longer than the length of any process that will be run (assuming the RR will switch contexts automatically on the process finishing rather than wait out the end of the quantum)
 
+
+
+
 6. What happens to response time with SJF as job lengths increase? Can you use the simulator to demonstrate the trend?
+
 As job lengths increase, SJF response times will increase especially for jobs at the end of the queue.
 
+
+
+
 7. What happens to response time with RR as quantum lengths increase? Can you write an equation that gives the worst-case response time, given N jobs? Hint: run the simulation a number of times with jobs of the same length and a variety of quanta and see if you can find the pattern. (Or consider: where does a job have to be to have to wait the longest?)
+
 As quantum lengths increase, reponse time increases linearly. If you double the quantum length, you double the response time.
 With N number of tasks, the worst-case response time for a process in a RR scheduler with Q quantum length is Q*N
