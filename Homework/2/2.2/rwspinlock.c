@@ -14,15 +14,30 @@
 
 #define MAX_THREADS 10
 
+#define READER_BIT 0b10000000000000000000000000000000
+
 _Atomic(int) reader_count;
 int writer_count;
 
+//32 bit integer to represent the state of the lock
+_Atomic(int) rw_lock = 0;
 
 /**
  * Acquire a read lock.
  */
 void read_lock(void)
 {
+    int lock, new;
+    while(1){
+        lock = atomic_load(&rw_lock);
+        if(lock & READER_BIT){
+            continue;
+        }
+        new = lock + 1;
+        if(atomic_compare_exchange_weak(&rw_lock, &lock, new)){
+            break;
+        }
+    }
 }
 
 /**
@@ -30,6 +45,7 @@ void read_lock(void)
  */
 void read_unlock(void)
 {
+    atomic_fetch_sub(&rw_lock, 1);
 }
 
 /**
@@ -37,6 +53,16 @@ void read_unlock(void)
  */
 void write_lock()
 {
+    int lock;
+    while(1){
+        lock = atomic_load(&rw_lock);
+        if(lock != 0){
+            continue;
+        }
+        if(atomic_compare_exchange_weak(&rw_lock, &lock, READER_BIT)){
+            break;
+        }
+    }
 }
 
 /**
@@ -44,6 +70,7 @@ void write_lock()
  */
 void write_unlock()
 {
+    atomic_store(&rw_lock, 0);
 }
 
 // Do not change the code below this point!
