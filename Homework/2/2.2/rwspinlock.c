@@ -19,7 +19,6 @@
 _Atomic(int) reader_count;
 int writer_count;
 
-//32 bit integer to represent the state of the lock
 _Atomic(int) rw_lock = 0;
 
 /**
