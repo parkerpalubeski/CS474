@@ -1,0 +1,5 @@
+
+
+int ialloc(void){
+    
+}
