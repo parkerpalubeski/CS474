@@ -21,7 +21,6 @@ void test_block(){
     //Tests that bread() returns NULL when passed a negative block_number
     CTEST_ASSERT(bread(-1, test_blockB) == NULL, "testing bread() case : negative block number");
 
-
     return;
 
 }

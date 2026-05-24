@@ -1,71 +1,42 @@
-# Conway's Game of Life
-
-_[REMOVE ALL COMMENTS SUCH AS THIS ONE BEFORE CHECKING IN.]_
-
-_[A good approach to creating the README is to take a stab at it before
-coding, and then fix it up after coding.]_
-
-_[You may add additional sections to this file if applicable, e.g. `##
-Deploying` or any other information that a user might find
-instructive.]_
+# Very Very Simple File System (VVSFS)
 
 ## Building
 
-_[How to build the program. VS Code part is optional.]_
-
 Command line:
 
-* `make` to build. An executable called `clife` will be produced.
-* `make clean` to clean up all build products except the executable.
-* `make pristine` to clean up all build products entirely.
+* `make` to build. An executable called `testfs` will be produced
+* `make test` to build and automatically run the program
 
 VS Code:
 
 * The default build task runs `make`.
+* `make test` builds the program and then automatically runs it
+* `make clean` to remove object files
+* `make pristine` to remove all build products, .img files, and object files
 
 ## Files
 
-_[List files here, even if you only have one. Headers are optional.]_
+* `testfs.c`: The central file to launch the program and tests
+* `block.c`: Provides functions for reading and writing to the "blocks", as well as calculating offsets (in other words, WHERE to write to the file)
+* `image.c`: Includes functions that open and close the file and provides file pointers
+* `ctest.h`: Header file provided by Beej that includes tests to assure the program is working properly
 
-* `main.c`: The main code to launch the game
-* `life.c`: Code specific to Conway's Life
-* `display.c`: Code to related to display
-* `sysdetect.h`: Some macros for detecting system capabilities
 
 ## Data
 
-_[Description of the main data used in the program. Just list the major
-data structures—not every variable.]_
-
-There is an 80x24 2D array of Booleans that represents the cells, in
-row-major order. Additionally, there's a second parallel array used to
-double-buffer during the next generation computation.
-
-If an array element is True, the cell is alive, otherwise it's dead.
+This program uses arrays of chars referred to as "blocks" to simulate blocks of memory, since chars take up one byte of memory exactly. In effect, these are only used in their binary forms.
 
 ## Functions
 
 _[This is a tree of functions and their short descriptions]_
 
-* `main()`
-  * `init()`
-    * `life_init()`: Initializes the cell array to random 
-      * `grid_alloc()`: Allocate space for the cell grid
-      * `randomize()`: Randomize the contents of the cell grid
-    * `display_init()`: Initializes the display
-      * `clear_screen()`
-  * `run()`: Main game running routine
-    * `life_update()`: Update cell data
-      * `update_cell()`: updates a cell based on its neighbors
-        * `get_neighbor_count()`: counts neighbors for a cell
-    * `life_get_cells()`: Get cell status
-    * `display_update()`: Display cells
-      * `home_cursor()`
-    * `delay()`: Delay between frames
-  * `life_shutdown()`: Call before destruction (currently unreachable)
-    * `grid_free()`: Free cell grid memory
-
-## Notes
-
-_[Any additional notes, bugs, etc.]_
-
+* `main()`: main function that calls other functions
+  * `CTEST_VERBOSE(): Selects whether to print individual test results
+  * `test_img()`: Tests file opening/closing and calls function to test block.c
+    * `image_open()`: Opens a file and returns a file pointer
+    * `CTEST_ASSERT()`: Tests whether a condition is true
+    * `test_block()`: Tests functions in block.c
+    * `bwrite()`: Writes to the open file, calculating offset based on provided block number
+    * `image_close()`: Closes a file pointer
+  * `CTEST_RESULTS()`: Prints out percentage of tests passed
+  * `CTEST_EXIT()`: Ends tests

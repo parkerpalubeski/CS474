@@ -15,7 +15,7 @@ test: testfs
 
 # make clean
 clean:
-	rm -f *.o
+	rm -f *.o testfs
 
 # make pristine
 pristine: clean
