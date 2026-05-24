@@ -1,7 +1,6 @@
 #include "block.h"
 #include "ctest.h"
 #include "image.h"
-#include "block.h"
 #include <string.h>
 
 void test_block(){
