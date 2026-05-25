@@ -1,7 +1,7 @@
 #ifndef FREE_H
 #define FREE_H
 
-#include "block.h"
+#include "image.h"
 
 void set_free(unsigned char *block, int num, int set);
 

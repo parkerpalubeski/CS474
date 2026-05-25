@@ -7,8 +7,8 @@ all: testfs
 testfs: testfs.o libvvsfs.a
 	$(CC) $(CFLAGS) testfs.o libvvsfs.a -o testfs
 
-libvvsfs.a: image.o block.o free.o
-	ar rcs libvvsfs.a image.o block.o free.o
+libvvsfs.a: image.o block.o free.o inode.o pack.o
+	ar rcs libvvsfs.a image.o block.o free.o inode.o pack.o
 
 # run tests on make test
 test: testfs
