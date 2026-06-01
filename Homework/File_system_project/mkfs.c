@@ -1,9 +1,15 @@
-//Makes the file system to disk
+// Makes the file system to disk
 #include "mkfs.h"
 
-void mkfs(void){
+// initializes the image file
+// also initializes the root directory at inode #0
+// args : none
+// returns : none
+void mkfs(void)
+{
     unsigned char block[BLOCK_SIZE];
-    for(int i = 0; i < BLOCK_SIZE; i++){
+    for (int i = 0; i < BLOCK_SIZE; i++)
+    {
         block[i] = 0;
     }
     bwrite(SUPERBLOCK, block);
@@ -16,14 +22,15 @@ void mkfs(void){
     block[0] = 0x7f;
     bwrite(BLOCK_MAP, block);
 
-    //create the root directory
-    struct inode* root = ialloc();
+    // create the root directory
+    struct inode *root = ialloc();
     int dir_entries = alloc();
     root->flags = 2;
     root->size = 2 * RECORD_SIZE;
     root->block_ptr[0] = dir_entries;
 
-    for(int i = 0; i < BLOCK_SIZE; i++){
+    for (int i = 0; i < BLOCK_SIZE; i++)
+    {
         block[i] = 0;
     }
     // create .
@@ -38,7 +45,6 @@ void mkfs(void){
     block[offset2 + 3] = '.';
     block[offset2 + 4] = '\0';
     bwrite(dir_entries, block);
-
 
     iput(root);
     (void)dir_entries;

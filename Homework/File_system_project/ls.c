@@ -1,5 +1,8 @@
 #include "ls.h"
 
+// prints out the contents of a directory in format "%d %s"
+// args : none
+// returns : none
 void ls(void)
 {
     struct directory *dir;
