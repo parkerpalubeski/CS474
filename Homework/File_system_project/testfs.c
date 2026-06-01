@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
 {
     if (argc > 1)
     {
-        if (strcmp(argv[1], "test") == 0)
+        if (strcmp(argv[1], "test") == 0) // enter testing mode
         {
             // tests active
             CTEST_VERBOSE(1);
@@ -165,6 +165,11 @@ int main(int argc, char *argv[])
             test_dir();
 
             CTEST_RESULTS();
+        }
+        else // invalid args
+        {
+            printf("./testfs or ./testfs test\n");
+            return 0;
         }
     }
     // mkfs
