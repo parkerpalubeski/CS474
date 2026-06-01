@@ -38,7 +38,7 @@ Upon running, this program will generate several files:
 
 This program uses arrays of chars referred to as "blocks" to simulate blocks of memory, since chars take up one byte of memory exactly. In effect, these are only used in their binary forms. Blocks of memory are assigned different roles depending on their block number.
 
-Each directory in the file system is represented byt a struct.
+Each directory in the file system is represented by a struct.
 
 ## Functions
 
