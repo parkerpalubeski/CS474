@@ -1,8 +1,8 @@
 // This is the central file that holds the main function (located at the bottom)
 // This file also holds definitions for tests of the various functions present in other files
 
-// TODO
-// add even more tests
+// TO DO:
+// add more tests
 // namei()
 // directory_make()
 // add deletion for test images
@@ -15,7 +15,7 @@ void test_inode(void)
 {
     incore_free_all();
     struct inode *node1 = ialloc();
-    CTEST_ASSERT(node1 != NULL, "testint ialloc returns a valid pointer");
+    CTEST_ASSERT(node1 != NULL, "testing ialloc returns a valid pointer");
     CTEST_ASSERT(node1->size == 0, "testing ialloc initialize value");
     struct inode *node2 = ialloc();
     CTEST_ASSERT(node2 != NULL, "testing ialloc succeeds when inodes exist");
@@ -155,7 +155,8 @@ void test_dir(void)
 // Arguments are a personal liberty I took
 // When entering "make test", "test" is passed as an argument into the function, starting testing mode and running all tests
 // Otherwise, the filesystem runs as usual, or you can pass in the test argument manually with ./testfs test
-// NOTE: tests write to "test.img", while main function writes to "fs.img"
+// NOTE: tests write to "test.img" and "dir_test.img", while main function writes to "fs.img"
+// args : "test" to initiate testing mode, or none
 int main(int argc, char *argv[])
 {
     if (argc > 1)
@@ -170,7 +171,9 @@ int main(int argc, char *argv[])
             test_free();
             test_dir();
 
+            // prints ctest results
             CTEST_RESULTS();
+            CTEST_EXIT();
         }
         else // invalid args
         {
@@ -178,7 +181,7 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
-    // mkfs
+    // mkfs call
     int fd = image_open("fs.img", 1);
     mkfs();
     (void)fd;
@@ -188,10 +191,6 @@ int main(int argc, char *argv[])
     // prevent errors with arguments
     (void)argc;
     (void)argv;
-    if (ctest_verbose)
-    {
-        CTEST_EXIT();
-    }
 
     return 0;
 }
