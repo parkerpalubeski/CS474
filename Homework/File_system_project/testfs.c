@@ -1,6 +1,12 @@
 // This is the central file that holds the main function (located at the bottom)
 // This file also holds definitions for tests of the various functions present in other files
 
+// TODO
+// add even more tests
+// namei()
+// directory_make()
+// add deletion for test images
+
 #include "ctest.h" //Beej testing functions
 #include "mkfs.h"  //includes this because it has most dependencies
 

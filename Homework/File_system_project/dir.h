@@ -3,16 +3,20 @@
 
 #include "inode.h"
 
-#define INODE_BYTES         2
-#define FILENAME_BYTES      16
-#define RECORD_SIZE         32
+#define INODE_BYTES 2
+#define FILENAME_BYTES 16
+#define RECORD_SIZE 32
 
-struct directory{
+#define ROOT_INODE_NUM 0
+
+struct directory
+{
     struct inode *inode;
     unsigned int offset;
 };
 
-struct directory_entry{
+struct directory_entry
+{
     unsigned int inode_num;
     char name[16];
 };
@@ -22,5 +26,7 @@ struct directory *directory_open(int inode_num);
 int directory_get(struct directory *dir, struct directory_entry *ent);
 
 void directory_close(struct directory *d);
+
+struct inode *namei(char *path);
 
 #endif

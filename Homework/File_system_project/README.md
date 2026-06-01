@@ -5,15 +5,10 @@
 Command line:
 
 * `make` to build. An executable called `testfs` will be produced
-* `make test` to build and automatically run the program
-
-VS Code:
-
-* The default build task runs `make`.
-* `make test` builds the program and then automatically runs it
+* `make test` builds the program and then automatically runs it in testing mode
 * `make clean` to remove object files
 * `make pristine` to remove all build products, .img files, and object files
-* `make run` to run the program WITHOUT running tests (in other words, only the file system!)
+* `make run` builds and runs the program WITHOUT running tests (in other words, only the file system!)
 
 ## Files
 
@@ -27,6 +22,16 @@ VS Code:
 * `pack.c`  : Helper functions for bitwise calculations on inodes
 * `dir.c`   : Functions to open/close/read directories
 * `ls.c`    : An ls()-like function (prints inode nums and filenames)
+
+
+## Generated files
+
+Upon running, this program will generate several files:
+
+* `testfs`      : The main executable
+* `fs.img`      : An image file representing the file system
+* `dir_test.img`: An image file used specifically for tests of the functions in dir.c (only created in testing mode)
+* `test.img`    : An image file used to test all other functions (only created in testing mode)
 
 
 ## Data
