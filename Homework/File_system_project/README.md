@@ -24,9 +24,9 @@ VS Code:
 * `free.c`  : Functions for finding and setting free memory blocks
 * `inode.c` : Functions for handling inode support for our VVSFS
 * `mkfs.c`  : Initializes the file system
-* `pack.c*  : Helper functions for bitwise calculations on inodes
-* `dir.c*   : Functions to open/close/read directories
-* `ls.c*    : An ls()-like function (prints inode nums and filenames)
+* `pack.c`  : Helper functions for bitwise calculations on inodes
+* `dir.c`   : Functions to open/close/read directories
+* `ls.c`    : An ls()-like function (prints inode nums and filenames)
 
 
 ## Data
