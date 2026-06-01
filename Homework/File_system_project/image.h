@@ -5,6 +5,8 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/types.h>
+#include <stdlib.h>
+#include <string.h>
 
 //added special block definitions
 #define SUPERBLOCK          0

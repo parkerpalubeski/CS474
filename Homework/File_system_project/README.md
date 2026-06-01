@@ -13,22 +13,27 @@ VS Code:
 * `make test` builds the program and then automatically runs it
 * `make clean` to remove object files
 * `make pristine` to remove all build products, .img files, and object files
+* `make run` to run the program WITHOUT running tests (in other words, only the file system!)
 
 ## Files
 
 * `testfs.c`: The central file to launch the program and tests
-* `block.c`: Provides functions for reading and writing to the "blocks", as well as calculating offsets (in other words, WHERE to write to the file)
-* `image.c`: Includes functions that open and close the file and provides file pointers
-* `ctest.h`: Header file provided by Beej that includes tests to assure the program is working properly
-* `free.c` : Functions for finding and setting free memory blocks
-* `inode.c`: Functions for handling inode support for our VVSFS
-* `mkfs.c` : Future use file for actually creating the file system
-* `pack.c* : Helper functions for bitwise calculations on inodes
+* `block.c` : Provides functions for reading and writing to the "blocks", as well as calculating offsets (in other words, WHERE to write to the file)
+* `image.c` : Includes functions that open and close the file and provides file pointers
+* `ctest.h` : Header file provided by Beej that includes tests to assure the program is working properly
+* `free.c`  : Functions for finding and setting free memory blocks
+* `inode.c` : Functions for handling inode support for our VVSFS
+* `mkfs.c`  : Initializes the file system
+* `pack.c*  : Helper functions for bitwise calculations on inodes
+* `dir.c*   : Functions to open/close/read directories
+* `ls.c*    : An ls()-like function (prints inode nums and filenames)
 
 
 ## Data
 
 This program uses arrays of chars referred to as "blocks" to simulate blocks of memory, since chars take up one byte of memory exactly. In effect, these are only used in their binary forms. Blocks of memory are assigned different roles depending on their block number.
+
+Each directory in the file system is represented byt a struct.
 
 ## Functions
 
@@ -52,3 +57,8 @@ _[This is a tree of functions and their short descriptions]_
     * `image_close()`: Closes a file pointer
   * `CTEST_RESULTS()`: Prints out percentage of tests passed
   * `CTEST_EXIT()`: Ends tests
+  * `mkfs()`: Initializes the file system
+  * `ls()`: Prints out all contents of the current directory
+    * `directory_open()` : Takes an inode number and malloc's a directory struct, returning the pointer
+    * `directory_get()` : reads data from a directory into a directory entry
+    * `directory_close()` : frees the directory's inode and directory struct

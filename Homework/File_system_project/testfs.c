@@ -1,10 +1,10 @@
 //This is the central file that holds the main function (located at the bottom)
 //This file also holds definitions for tests of the various functions present in other files
 
-#include "ctest.h"
-#include "inode.h" //only includes this because it has all dependencies
-#include <string.h>
+#include "ctest.h" //Beej testing functions
+#include "mkfs.h" //includes this because it has most dependencies
 
+//Tests functions in inode.c
 void test_inode(void){
     incore_free_all();
     struct inode *node1 = ialloc();
@@ -35,7 +35,7 @@ void test_inode(void){
 }
 
 
-
+//Tests functions in block.c
 void test_block(void){
     unsigned char test_blockA[BLOCK_SIZE];
     for(int i = 0; i < BLOCK_SIZE; i++){
@@ -61,6 +61,7 @@ void test_block(void){
 
 }
 
+//Tests functions in image.c
 void test_img(void){
     int test_fd = image_open("test.img", 1);
 
@@ -88,6 +89,7 @@ void test_img(void){
     return;
 }
 
+//Tests all functions in free.c
 void test_free(void){
     unsigned char test[BLOCK_SIZE];
     for(int i = 0; i < BLOCK_SIZE; i++){
@@ -109,14 +111,64 @@ void test_free(void){
     return;
 }
 
-int main(void){
-    CTEST_VERBOSE(1);
+//tests the dir functions
+//creates a new image file after testing the other functions, then deletes it
+void test_dir(void){
+    int dir_fd = image_open("dir_test.img", 1);
+    mkfs();
+    incore_free_all();
 
-    test_img();
-    test_free();
+    //test mkfs
+    struct inode *root = iget(0);
+    CTEST_ASSERT(root != NULL, "testing valid root node created with mkfs");
+    CTEST_ASSERT(root->flags == 2, "testing root inode flag indicates that it's a directory");
+    CTEST_ASSERT(root->size == 2 * RECORD_SIZE, "testing that 2 records are present in new root directory");
 
-    CTEST_RESULTS();
-    CTEST_EXIT();
+    //test directory functions
+    struct directory *dir = directory_open(0);
+    struct directory_entry ent;
+    CTEST_ASSERT(dir != NULL, "testing directory_open doesn't return NULL");
+    CTEST_ASSERT(directory_get(dir, &ent) == 0, "testing directory get returns 0 upon success");
+    CTEST_ASSERT(strcmp(ent.name, ".")==0, "testing 1st directory entry should be .");
+    directory_close(dir);
+
+    (void) dir_fd;
+    iput(root);
+    image_close();
+}
+
+//Main function, calls all other functions
+//Arguments are a personal liberty I took
+//When entering "make test", "test" is passed as an argument into the function, starting testing mode and running all tests
+//Otherwise, the filesystem runs as usual, or you can pass in the test argument manually with ./testfs test
+//NOTE: tests write to "test.img", while main function writes to "fs.img"
+int main(int argc, char* argv[]){
+    if(argc > 1){
+        if(strcmp(argv[1], "test") == 0){
+            //tests active
+            CTEST_VERBOSE(1);
+
+            //call tests
+            test_img();
+            test_free();
+            test_dir();
+
+            CTEST_RESULTS();
+        }
+    }
+    //mkfs
+    int fd = image_open("fs.img", 1);
+    mkfs();
+    (void)fd;
+    ls();
+    image_close();
+
+    //prevent errors with arguments
+    (void)argc; 
+    (void)argv;
+    if(ctest_verbose){
+        CTEST_EXIT();   
+    }
 
     return 0;
 }
