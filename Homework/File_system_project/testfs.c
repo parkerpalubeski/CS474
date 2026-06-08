@@ -159,7 +159,7 @@ void test_dir(void)
 
     (void)dir_fd;
     iput(root);
-    image_close();
+    image_close(); 
 }
 
 // Main function, calls all other functions
