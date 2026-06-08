@@ -48,21 +48,31 @@ _[This is a tree of functions and their short descriptions]_
   * `CTEST_VERBOSE(): Selects whether to print individual test results
   * `test_img()`: Tests file opening/closing and calls function to test block.c
     * `image_open()`: Opens a file and returns a file pointer
-    * `CTEST_ASSERT()`: Tests whether a condition is true
-    * `test_block()`: Tests functions in block.c
-      * `bwrite()`: Writes to the open file, calculating offset based on provided block number
-      * `bread()`: Reads from the opened file into a block of memory
-      * `alloc()`: allocates memory in the BLOCK_MAP and writes to the opened file
-    * `test_inode()`: Tests functions in inode.c
-      * `incore_free_all()`: Sets the ref count of all inodes in the incore array to 0
-      * `ialloc()`: allocates memory in the inode map and returns the a pointer to the lowest free inode
-      * `incore_find()`: Finds an in-core inode record in the incore array
-      * `iget()`: Returns a pointer for an in-core inode at inode_num
-      * `iput()`: releases an active in-core inode and writes it back to disk if its ref_count drops to 0
+      * `CTEST_ASSERT()`: Tests whether a condition is true
+      * `test_block()`: Tests functions in block.c
+        * `bwrite()`: Writes to the open file, calculating offset based on provided block number
+        * `bread()`: Reads from the opened file into a block of memory
+        * `alloc()`: allocates memory in the BLOCK_MAP and writes to the opened file
+      * `test_inode()`: Tests functions in inode.c
+        * `incore_free_all()`: Sets the ref count of all inodes in the incore array to 0
+        * `ialloc()`: allocates memory in the inode map and returns the a pointer to the lowest free inode
+        * `incore_find_free`: returns a pointer to the first free inode
+        * `incore_find()`: Finds an in-core inode record in the incore array
+        * `iget()`: Returns a pointer for an in-core inode at inode_num
+        * `iput()`: releases an active in-core inode and writes it back to disk if its ref_count drops to 0
     * `image_close()`: Closes a file pointer
+  * `test_free()`: tests functions in free.c
+    * `set_free()`: frees a block
+    * `find_free()`: finds a freed block
+  * `test_dir`: Tests functions in dir.c
+    * `mkfs()`: Initializes a new file system
+    * `directory_open`: Opens a new directory
+    * `directory_get`: Reads data from a directory into a directory entry
+    * `directory_close`: Frees up a directory's inode and the related malloc'd struct
+    * `namei`: Returns the inode of the file at the path passed as an argument
+    * `directory_make`: mkdir-like function that creates a new directory at the specified path
   * `CTEST_RESULTS()`: Prints out percentage of tests passed
   * `CTEST_EXIT()`: Ends tests
-  * `mkfs()`: Initializes the file system
   * `ls()`: Prints out all contents of the current directory
     * `directory_open()` : Takes an inode number and malloc's a directory struct, returning the pointer
     * `directory_get()` : reads data from a directory into a directory entry

@@ -146,15 +146,7 @@ void test_dir(void)
     CTEST_ASSERT(strcmp(ent.name, ".") == 0, "testing 1st directory entry should be .");
     CTEST_ASSERT(directory_make("/foo") == 0, "testing directory_make creates valid directory foo");
     CTEST_ASSERT(directory_make("/bar") == 0, "testing directory_make creates valid directory bar");
-    printf("ls of root directory\n");
-    ls(0);
-    printf("bar and foo should appear here\n"); 
-    printf("ls of foo\n");
-    ls(1);
-    printf("ls of bar\n");
-    ls(2);
     CTEST_ASSERT(directory_make("/foo") == -1, "testing directory_make fails when directory already exists");
-    ls(0);
     directory_close(dir);
 
     (void)dir_fd;
