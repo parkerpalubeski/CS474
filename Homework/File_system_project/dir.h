@@ -29,4 +29,6 @@ void directory_close(struct directory *d);
 
 struct inode *namei(char *path);
 
+int directory_make(char *path);
+
 #endif

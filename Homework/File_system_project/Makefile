@@ -7,8 +7,8 @@ all: testfs
 testfs: testfs.o libvvsfs.a
 	$(CC) $(CFLAGS) testfs.o libvvsfs.a -o testfs
 
-libvvsfs.a: image.o block.o free.o inode.o pack.o mkfs.o dir.o ls.o
-	ar rcs libvvsfs.a image.o block.o free.o inode.o pack.o mkfs.o dir.o ls.o 
+libvvsfs.a: image.o block.o free.o inode.o pack.o mkfs.o dir.o ls.o dirbasename.o
+	ar rcs libvvsfs.a image.o block.o free.o inode.o pack.o mkfs.o dir.o ls.o dirbasename.o
 
 # makes and runs tests on make test, as well as the file system program
 test: testfs

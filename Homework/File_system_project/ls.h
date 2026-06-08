@@ -3,7 +3,7 @@
 
 #include "dir.h"
 
-void ls(void);
+void ls(int inode_num);
 
 
 #endif

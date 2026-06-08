@@ -59,7 +59,7 @@ void test_block(void)
     // tests that bread() returns the same value as the value passed in argument 2
     CTEST_ASSERT((bread(12, test_blockB), test_blockB, BLOCK_SIZE), "testing bread() case : standard");
     // Tests that the contents of test_blockA and test_blockB are identical
-    CTEST_ASSERT(!memcmp(test_blockA, test_blockB, BLOCK_SIZE), "testing bread() stored values");
+    CTEST_ASSERT(!memcmp(test_blockA, test_blockB, BLOCK_SIZE) == 0, "testing bread() stored values");
     // Tests that bread() returns NULL when passed a negative block_number
     CTEST_ASSERT(bread(-1, test_blockB) == NULL, "testing bread() case : negative block number");
 
@@ -144,6 +144,17 @@ void test_dir(void)
     CTEST_ASSERT(dir != NULL, "testing directory_open doesn't return NULL");
     CTEST_ASSERT(directory_get(dir, &ent) == 0, "testing directory get returns 0 upon success");
     CTEST_ASSERT(strcmp(ent.name, ".") == 0, "testing 1st directory entry should be .");
+    CTEST_ASSERT(directory_make("/foo") == 0, "testing directory_make creates valid directory foo");
+    CTEST_ASSERT(directory_make("/bar") == 0, "testing directory_make creates valid directory bar");
+    printf("ls of root directory\n");
+    ls(0);
+    printf("bar and foo should appear here\n"); 
+    printf("ls of foo\n");
+    ls(1);
+    printf("ls of bar\n");
+    ls(2);
+    CTEST_ASSERT(directory_make("/foo") == -1, "testing directory_make fails when directory already exists");
+    ls(0);
     directory_close(dir);
 
     (void)dir_fd;
@@ -173,6 +184,8 @@ int main(int argc, char *argv[])
 
             // prints ctest results
             CTEST_RESULTS();
+            //runs the program again, this time not in testing mode
+            main(1, NULL);
             CTEST_EXIT();
         }
         else // invalid args
@@ -181,11 +194,15 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
+    printf("===FILE SYSTEM RUN===\n");
     // mkfs call
     int fd = image_open("fs.img", 1);
     mkfs();
     (void)fd;
-    ls();
+    ls(0);
+    directory_make("/foo");
+    ls(0);
+    ls(1);
     image_close();
 
     // prevent errors with arguments

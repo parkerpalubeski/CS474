@@ -38,7 +38,7 @@ int alloc(void){
     int free_b = find_free(buf);
     if(free_b == -1){
         //MAP FULL : RETURN -1
-        return 1;
+        return -1;
     }
 
     set_free(buf, free_b, 1);
