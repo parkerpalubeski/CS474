@@ -62,8 +62,8 @@ _[This is a tree of functions and their short descriptions]_
         * `iput()`: releases an active in-core inode and writes it back to disk if its ref_count drops to 0
     * `image_close()`: Closes a file pointer
   * `test_free()`: tests functions in free.c
-    * `set_free()`: frees a block
-    * `find_free()`: finds a freed block
+    * `set_free()`: frees a specific bit (set to 0 or 1)
+    * `find_free()`: finds a free bit in a block and returns the index
   * `test_dir`: Tests functions in dir.c
     * `mkfs()`: Initializes a new file system
     * `directory_open`: Opens a new directory
